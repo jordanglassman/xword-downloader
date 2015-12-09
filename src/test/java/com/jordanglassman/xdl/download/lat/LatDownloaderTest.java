@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl.lat;
+package com.jordanglassman.xdl.download.lat;
 
 import com.jordanglassman.xdl.LoginInfo;
 import mockit.Deencapsulation;

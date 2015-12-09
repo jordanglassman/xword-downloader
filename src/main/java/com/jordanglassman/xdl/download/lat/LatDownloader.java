@@ -1,7 +1,8 @@
-package com.jordanglassman.xdl.lat;
+package com.jordanglassman.xdl.download.lat;
 
-import com.jordanglassman.xdl.BaseDownloader;
+import com.jordanglassman.xdl.download.BaseDownloader;
 import com.jordanglassman.xdl.LoginInfo;
+import com.jordanglassman.xdl.XwordType;
 import com.jordanglassman.xdl.exception.LoginException;
 import com.jordanglassman.xdl.exception.LogoutException;
 import org.apache.commons.lang3.StringUtils;
@@ -84,6 +85,10 @@ public class LatDownloader extends BaseDownloader {
 
 	@Override
 	public boolean authenticate() {
+		if(!super.authenticate()) {
+			LOG.error(String.format("blank username or password detected, no %s xword will be downloaded", this.getType()));
+			return false;
+		}
 
 		final HttpUriRequest loginGet = RequestBuilder.get().setUri(LAT_LOGIN_URL).build();
 
@@ -231,5 +236,9 @@ public class LatDownloader extends BaseDownloader {
 		} catch (IOException | LogoutException e) {
 			LOG.error("error while logging out of LAT, e={}", e);
 		}
+	}
+
+	@Override public XwordType getType() {
+		return XwordType.LAT;
 	}
 }

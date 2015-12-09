@@ -1,5 +1,7 @@
 package com.jordanglassman.xdl;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class LoginInfo {
 	private String username;
 	private String password;
@@ -18,5 +20,9 @@ public class LoginInfo {
 
 	public void setUsername(final String username) {
 		this.username = username;
+	}
+
+	public boolean hasBlank() {
+		return StringUtils.isBlank(this.username) || StringUtils.isBlank(this.password);
 	}
 }

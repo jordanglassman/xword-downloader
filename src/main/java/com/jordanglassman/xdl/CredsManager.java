@@ -9,20 +9,11 @@ import java.util.Map;
 /**
  * Gets and prepares credentials and URLs for xword downloads.
  */
-public class CredsManager {
+public class CredsManager extends SystemProperties {
 	// checks system props
 	// then env variables
 	// then some file
 	// then maybe will prompt?
-
-	private static final String NYT_USERNAME = "com.jordanglassman.xdl.nyt.username";
-	private static final String NYT_PASSWORD = "com.jordanglassman.xdl.nyt.password";
-
-	private static final String LAT_USERNAME = "com.jordanglassman.xdl.lat.username";
-	private static final String LAT_PASSWORD = "com.jordanglassman.xdl.lat.password";
-
-	private static final String CS_USERNAME = "com.jordanglassman.xdl.cs.username";
-	private static final String CS_PASSWORD = "com.jordanglassman.xdl.cs.password";
 
 	private final Map<XwordType, Pair<String, String>> creds = new HashMap<>();
 

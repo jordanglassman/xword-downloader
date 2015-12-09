@@ -1,4 +1,6 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.download;
+
+import com.jordanglassman.xdl.XwordType;
 
 public interface Downloader {
 	void doDownload();
@@ -10,4 +12,6 @@ public interface Downloader {
 	void write(byte[] rawData);
 
 	void logout();
+
+	XwordType getType();
 }
