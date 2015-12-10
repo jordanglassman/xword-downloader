@@ -1,5 +1,7 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.download;
 
+import com.jordanglassman.xdl.LoginInfo;
+import com.jordanglassman.xdl.PathsManager;
 import com.jordanglassman.xdl.exception.LoginException;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.Date;
 import java.util.List;
 
@@ -24,13 +27,13 @@ public abstract class BaseDownloader implements Downloader {
 	private static final Logger LOG = LoggerFactory.getLogger(BaseDownloader.class);
 
 	private CloseableHttpClient httpClient;
-	private final HtmlCleaner cleaner;
+	private HtmlCleaner cleaner;
 
-	private final LoginInfo loginInfo;
-	private final List<Path> paths;
+	private LoginInfo loginInfo;
+	private List<Path> paths;
+	private PathsManager pathsManager;
 
-	private final Date today;
-
+	private Date today;
 
 	public BaseDownloader(final LoginInfo loginInfo, final List<Path> paths) {
 		this.loginInfo = loginInfo;
@@ -46,20 +49,42 @@ public abstract class BaseDownloader implements Downloader {
 		this.cleaner = new HtmlCleaner();
 	}
 
-	@Override
-	public void doDownload() {
-		if(this.authenticate()) {
+//	public BaseDownloader(final LoginInfo loginInfo, final PathsManager pathsManager) {
+//		this.loginInfo = loginInfo;
+//		this.pathsManager = pathsManager;
+//
+//		this.today = new Date();
+//
+//		// init httpclient
+//		final BasicCookieStore cookieStore = new BasicCookieStore();
+//		final HttpClientBuilder builder = HttpClients.custom().setDefaultCookieStore(cookieStore);
+//		this.httpClient = builder.build();
+//
+//		this.cleaner = new HtmlCleaner();
+//	}
+
+	public BaseDownloader() {
+		this.pathsManager = new PathsManager();
+	}
+
+	@Override public boolean authenticate() {
+		return !loginInfo.hasBlank();
+	}
+
+	@Override public void doDownload() {
+		if (this.authenticate()) {
 			final byte[] rawCrossword = this.download(this.getDownloadUrlFormat());
 			this.write(rawCrossword);
 			this.logout();
-		}
+		} else
+			LOG.error(String.format("authentication failed, no %s xword downloaded", this.getType()));
 	}
 
 	protected abstract String getDownloadUrlFormat();
+
 	protected abstract String getFilenameFormat();
 
-	@Override
-	public byte[] download(final String urlFormat) {
+	@Override public byte[] download(final String urlFormat) {
 		final String downloadPath = String.format(urlFormat, this.today, this.today, this.today);
 		LOG.debug("downloading daily crossword at url={}", downloadPath);
 
@@ -74,8 +99,7 @@ public abstract class BaseDownloader implements Downloader {
 		}
 	}
 
-	@Override
-	public void write(final byte[] rawCrossword) {
+	@Override public void write(final byte[] rawCrossword) {
 		final String filename = String
 				.format(this.getFilenameFormat(), this.getToday(), this.getToday(), this.getToday());
 
@@ -117,5 +141,9 @@ public abstract class BaseDownloader implements Downloader {
 
 	public Date getToday() {
 		return this.today;
+	}
+
+	public PathsManager getPathsManager() {
+		return pathsManager;
 	}
 }

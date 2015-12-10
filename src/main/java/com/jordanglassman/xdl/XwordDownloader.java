@@ -1,18 +1,17 @@
 package com.jordanglassman.xdl;
 
-import com.jordanglassman.xdl.lat.LatDownloader;
-import com.jordanglassman.xdl.nyt.NytDownloader;
+import com.jordanglassman.xdl.download.lat.LatDownloader;
+import com.jordanglassman.xdl.download.nyt.NytDownloader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.List;
 
+import static com.jordanglassman.xdl.SystemProperties.DEV_ENVIRONMENT;
+
 public class XwordDownloader {
-
 	public static final Logger LOG = LoggerFactory.getLogger(XwordDownloader.class);
-
-	private static final String DEV_ENVIRONMENT = "com.jordanglassman.xdl.dev";
 
 	private final CredsManager credsManager;
 	private final PathsManager pathsManager;

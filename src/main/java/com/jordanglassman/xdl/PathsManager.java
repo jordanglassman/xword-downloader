@@ -9,24 +9,29 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.jordanglassman.xdl.SystemProperties.BASE_DOWNLOAD_DIR;
+
 public class PathsManager {
 	private static final Logger LOG = LoggerFactory.getLogger(PathsManager.class);
 
-	private static final String BASE_DOWNLOAD_DIR = "com.jordanglassman.xdl.basedir";
 	private static final String XWORDS = "xwords";
 
 	private Path baseDir;
+	private Path credsDir;
+
 	private List<Path> paths = new ArrayList<>();
 	private LocalDate today = DateTime.now().toLocalDate();
 
 	public PathsManager() {
 		this.baseDir = this.initBaseDir();
+		this.credsDir = this.initCredsDir();
 	}
 
 	public void init() {
@@ -94,18 +99,30 @@ public class PathsManager {
 		LOG.debug("using baseDir={}", baseDir);
 
 		Path baseDirPath = Paths.get(baseDir);
+		Path xwordsDir;
 
 		if (!baseDirPath.isAbsolute()) {
 			LOG.info("detected relative baseDir path setting={}, using user home directory={} as the parent path",
 					baseDir, userDir);
-			baseDirPath = Paths.get(userDir).resolve(baseDirPath).resolve(XWORDS);
+			xwordsDir = Paths.get(userDir).resolve(baseDirPath).resolve(XWORDS);
 		} else {
-			baseDirPath = Paths.get(userDir).resolve(XWORDS);
+			xwordsDir = baseDirPath.resolve(XWORDS);
 		}
 
-		LOG.info("writing xwords to baseDir={}", baseDirPath);
+		LOG.info("writing xwords to xwordsDir={}", xwordsDir);
 
-		return baseDirPath;
+		return xwordsDir;
+	}
+
+	private Path initCredsDir() {
+		final Path credsDir = this.baseDir.resolve("creds");
+		try {
+			Files.createDirectories(credsDir);
+		} catch (IOException e) {
+			LOG.error("error while creating creds dir, downloaders that rely on creds written to disk will not function");
+			return null;
+		}
+		return credsDir;
 	}
 
 	private Path initDailyDir(final Path baseDirPath, final LocalDate today) {
@@ -151,5 +168,13 @@ public class PathsManager {
 
 		LOG.warn("initArchiveDir() - returning null path, no archive puzzle will be written");
 		return null;
+	}
+
+	public Path getBaseDir() {
+		return baseDir;
+	}
+
+	public Path getCredsDir() {
+		return credsDir;
 	}
 }

@@ -1,7 +1,8 @@
-package com.jordanglassman.xdl.nyt;
+package com.jordanglassman.xdl.download.nyt;
 
-import com.jordanglassman.xdl.BaseDownloader;
+import com.jordanglassman.xdl.download.BaseDownloader;
 import com.jordanglassman.xdl.LoginInfo;
+import com.jordanglassman.xdl.XwordType;
 import com.jordanglassman.xdl.exception.LoginException;
 import com.jordanglassman.xdl.exception.LogoutException;
 import org.apache.http.Header;
@@ -50,6 +51,11 @@ public class NytDownloader extends BaseDownloader {
 
 	@Override
 	public boolean authenticate() {
+		if(!super.authenticate()) {
+			LOG.error(String.format("blank username or password detected, no %s xword will be downloaded", this.getType()));
+			return false;
+		}
+
 		final HttpUriRequest loginGet = RequestBuilder.get().setUri(NYT_LOGIN_URL).build();
 
 		final String loginPage;
@@ -173,5 +179,9 @@ public class NytDownloader extends BaseDownloader {
 		} catch (IOException | LogoutException e) {
 			LOG.error("error while logging out of nyt, e={}", e);
 		}
+	}
+
+	@Override public XwordType getType() {
+		return XwordType.NYT;
 	}
 }
