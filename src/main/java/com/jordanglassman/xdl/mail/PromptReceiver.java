@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl.util;
+package com.jordanglassman.xdl.mail;
 
 import com.google.api.client.extensions.java6.auth.oauth2.AbstractPromptReceiver;
 

@@ -1,6 +1,6 @@
 package com.jordanglassman.xdl.download.lat;
 
-import com.jordanglassman.xdl.LoginInfo;
+import com.jordanglassman.xdl.util.LoginInfo;
 import mockit.Injectable;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;

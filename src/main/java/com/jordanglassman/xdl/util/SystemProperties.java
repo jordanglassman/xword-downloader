@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.util;
 
 public class SystemProperties {
 	public static final String NYT_USERNAME = "com.jordanglassman.xdl.nyt.username";
@@ -7,6 +7,10 @@ public class SystemProperties {
 	public static final String LAT_PASSWORD = "com.jordanglassman.xdl.lat.password";
 	public static final String CS_USERNAME = "com.jordanglassman.xdl.cs.username";
 	public static final String CS_PASSWORD = "com.jordanglassman.xdl.cs.password";
+
+	public static final String GET_NYT = "com.jordanglassman.xdl.nyt";
+	public static final String GET_LAT = "com.jordanglassman.xdl.lat";
+	public static final String GET_CS = "com.jordanglassman.xdl.cs";
 
 	public static final String BASE_DOWNLOAD_DIR = "com.jordanglassman.xdl.basedir";
 

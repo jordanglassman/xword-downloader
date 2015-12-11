@@ -1,10 +1,11 @@
 package com.jordanglassman.xdl.download.lat;
 
-import com.jordanglassman.xdl.download.BaseDownloader;
-import com.jordanglassman.xdl.LoginInfo;
 import com.jordanglassman.xdl.XwordType;
+import com.jordanglassman.xdl.download.BaseDownloader;
 import com.jordanglassman.xdl.exception.LoginException;
 import com.jordanglassman.xdl.exception.LogoutException;
+import com.jordanglassman.xdl.util.LoginInfo;
+import com.jordanglassman.xdl.util.PathsManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.config.RequestConfig;
@@ -24,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,7 +41,8 @@ public class LatDownloader extends BaseDownloader {
 	private static final String LAT_LOGIN_URL = "http://www.cruciverb.com/index.php?action=login";
 	private static final String LAT_LOGIN2_URL = "http://www.cruciverb.com/index.php?action=login2";
 
-	private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
+	private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 "
+			+ "(KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
 
 	private static final String LAT_FILENAME = "lat%ty%tm%td.puz";
 	private static final String LAT_CROSSWORD_URL = "http://www.cruciverb.com/download.php?f=" + LAT_FILENAME;
@@ -52,13 +53,14 @@ public class LatDownloader extends BaseDownloader {
 	private String hiddenName = "";
 	private String hiddenValue = "";
 
-	public LatDownloader(final LoginInfo loginInfo, final List<Path> paths) {
-		super(loginInfo, paths);
+	public LatDownloader(final LoginInfo nytLoginInfo, final PathsManager pathsManager) {
+		super(nytLoginInfo, pathsManager);
 
 		// override default httpclient for cruciverb
 
 		// init httpclient configs
 		final BasicCookieStore cookieStore = new BasicCookieStore();
+
 		// cruciverb (SMF) sometimes returns 500 errors when certain headers are not set
 		final Header userAgentHeader = new BasicHeader(HTTP.USER_AGENT, USER_AGENT);
 		final Header refererHeader = new BasicHeader("Referer", REFERER);
@@ -85,8 +87,9 @@ public class LatDownloader extends BaseDownloader {
 
 	@Override
 	public boolean authenticate() {
-		if(!super.authenticate()) {
-			LOG.error(String.format("blank username or password detected, no %s xword will be downloaded", this.getType()));
+		if (!super.authenticate()) {
+			LOG.error(String.format("blank username or password detected, no %s xword will be downloaded",
+					this.getType()));
 			return false;
 		}
 
@@ -118,8 +121,8 @@ public class LatDownloader extends BaseDownloader {
 			LOG.error("found hidden hiddenValue={}", this.hiddenValue);
 
 			if (StringUtils.isBlank(this.hiddenName) || StringUtils.isBlank(this.hiddenValue)) {
-				LOG.error(
-						"could not find hidden input elements, continuing with login, logout will likely cause an error that can be ignored");
+				LOG.error("could not find hidden input elements, continuing with login, logout will "
+								+ "likely cause an error that can be ignored");
 			}
 		} catch (LoginException | XPatherException e) {
 			LOG.error("error while getting LAT login tokens", e);
@@ -238,7 +241,8 @@ public class LatDownloader extends BaseDownloader {
 		}
 	}
 
-	@Override public XwordType getType() {
+	@Override
+	public XwordType getType() {
 		return XwordType.LAT;
 	}
 }
