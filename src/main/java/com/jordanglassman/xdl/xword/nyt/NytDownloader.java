@@ -1,10 +1,11 @@
-package com.jordanglassman.xdl.download.nyt;
+package com.jordanglassman.xdl.xword.nyt;
 
-import com.jordanglassman.xdl.download.BaseDownloader;
-import com.jordanglassman.xdl.LoginInfo;
 import com.jordanglassman.xdl.XwordType;
+import com.jordanglassman.xdl.download.BaseDownloader;
 import com.jordanglassman.xdl.exception.LoginException;
 import com.jordanglassman.xdl.exception.LogoutException;
+import com.jordanglassman.xdl.util.LoginInfo;
+import com.jordanglassman.xdl.util.PathsManager;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -35,8 +35,8 @@ public class NytDownloader extends BaseDownloader {
 
 	private static final String NYT_LOGOUT_URL = "https://myaccount.nytimes.com/gst/signout?module=LogOut&action=Click&region=TopBar&WT.nav=shell&pgtype=Games";
 
-	public NytDownloader(final LoginInfo nytLoginInfo, final List<Path> paths) {
-		super(nytLoginInfo, paths);
+	public NytDownloader(final LoginInfo nytLoginInfo, final PathsManager pathsManager) {
+		super(nytLoginInfo, pathsManager);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -9,14 +9,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.jordanglassman.xdl.SystemProperties.BASE_DOWNLOAD_DIR;
+import static com.jordanglassman.xdl.util.SystemProperties.BASE_DOWNLOAD_DIR;
 
 public class PathsManager {
 	private static final Logger LOG = LoggerFactory.getLogger(PathsManager.class);
@@ -176,5 +176,9 @@ public class PathsManager {
 
 	public Path getCredsDir() {
 		return credsDir;
+	}
+
+	public Date getToday() {
+		return this.today.toDate();
 	}
 }

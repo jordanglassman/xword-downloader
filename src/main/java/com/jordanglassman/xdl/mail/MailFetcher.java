@@ -1,7 +1,7 @@
-package com.jordanglassman.xdl.util;
+package com.jordanglassman.xdl.mail;
 
 public interface MailFetcher {
 	boolean authenticate();
-	Object getMessage(final String subject);
+	Object getMessage();
 	byte[] getAttachment(Object message);
 }

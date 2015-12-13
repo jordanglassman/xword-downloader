@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.util;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,5 +1,6 @@
-package com.jordanglassman.xdl;
+package com.jordanglassman.xdl.util;
 
+import com.jordanglassman.xdl.XwordType;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 

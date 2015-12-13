@@ -1,8 +1,8 @@
 package com.jordanglassman.xdl.download;
 
-import com.jordanglassman.xdl.LoginInfo;
-import com.jordanglassman.xdl.PathsManager;
 import com.jordanglassman.xdl.exception.LoginException;
+import com.jordanglassman.xdl.util.LoginInfo;
+import com.jordanglassman.xdl.util.PathsManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.util.Date;
 import java.util.List;
 
@@ -30,14 +29,18 @@ public abstract class BaseDownloader implements Downloader {
 	private HtmlCleaner cleaner;
 
 	private LoginInfo loginInfo;
-	private List<Path> paths;
 	private PathsManager pathsManager;
 
 	private Date today;
 
-	public BaseDownloader(final LoginInfo loginInfo, final List<Path> paths) {
+	/**
+	 * Ctor for clients requiring creds in the form of a loginInfo object.
+	 * @param loginInfo
+	 * @param pathsManager
+	 */
+	public BaseDownloader(final LoginInfo loginInfo, final PathsManager pathsManager) {
 		this.loginInfo = loginInfo;
-		this.paths = paths;
+		this.pathsManager = pathsManager;
 
 		this.today = new Date();
 
@@ -49,26 +52,8 @@ public abstract class BaseDownloader implements Downloader {
 		this.cleaner = new HtmlCleaner();
 	}
 
-//	public BaseDownloader(final LoginInfo loginInfo, final PathsManager pathsManager) {
-//		this.loginInfo = loginInfo;
-//		this.pathsManager = pathsManager;
-//
-//		this.today = new Date();
-//
-//		// init httpclient
-//		final BasicCookieStore cookieStore = new BasicCookieStore();
-//		final HttpClientBuilder builder = HttpClients.custom().setDefaultCookieStore(cookieStore);
-//		this.httpClient = builder.build();
-//
-//		this.cleaner = new HtmlCleaner();
-//	}
-
-	public BaseDownloader() {
-		this.pathsManager = new PathsManager();
-	}
-
 	@Override public boolean authenticate() {
-		return !loginInfo.hasBlank();
+		return !this.loginInfo.hasBlank();
 	}
 
 	@Override public void doDownload() {
@@ -103,7 +88,9 @@ public abstract class BaseDownloader implements Downloader {
 		final String filename = String
 				.format(this.getFilenameFormat(), this.getToday(), this.getToday(), this.getToday());
 
-		for (final Path path : this.getPaths()) {
+		final List<Path> paths = this.getPathsManager().getPaths();
+
+		for (final Path path : paths) {
 			final Path resolvedPath = path.resolve(filename);
 			try {
 				LOG.debug("writing {} byte daily crossword to path={}", rawCrossword.length, resolvedPath);
@@ -123,10 +110,6 @@ public abstract class BaseDownloader implements Downloader {
 		return this.loginInfo;
 	}
 
-	public List<Path> getPaths() {
-		return this.paths;
-	}
-
 	public HtmlCleaner getCleaner() {
 		return this.cleaner;
 	}
@@ -144,6 +127,6 @@ public abstract class BaseDownloader implements Downloader {
 	}
 
 	public PathsManager getPathsManager() {
-		return pathsManager;
+		return this.pathsManager;
 	}
 }
