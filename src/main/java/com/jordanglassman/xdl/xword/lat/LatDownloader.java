@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl.download.lat;
+package com.jordanglassman.xdl.xword.lat;
 
 import com.jordanglassman.xdl.XwordType;
 import com.jordanglassman.xdl.download.BaseDownloader;
@@ -116,9 +116,9 @@ public class LatDownloader extends BaseDownloader {
 
 			final TagNode loginForm = (TagNode) foundNodes[0];
 			this.hiddenName = loginForm.getAttributeByName("name");
-			LOG.error("found hidden hiddenName={}", this.hiddenName);
+			LOG.debug("found hidden hiddenName={}", this.hiddenName);
 			this.hiddenValue = loginForm.getAttributeByName("value");
-			LOG.error("found hidden hiddenValue={}", this.hiddenValue);
+			LOG.debug("found hidden hiddenValue={}", this.hiddenValue);
 
 			if (StringUtils.isBlank(this.hiddenName) || StringUtils.isBlank(this.hiddenValue)) {
 				LOG.error("could not find hidden input elements, continuing with login, logout will "

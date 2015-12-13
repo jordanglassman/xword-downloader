@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl.download.cs;
+package com.jordanglassman.xdl.xword.cs;
 
 import com.google.api.services.gmail.model.Message;
 import com.jordanglassman.xdl.XwordType;

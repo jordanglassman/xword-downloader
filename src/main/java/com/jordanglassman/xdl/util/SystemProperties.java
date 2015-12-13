@@ -23,13 +23,13 @@ public class SystemProperties {
 	// -Dorg.apache.commons.logging.simplelog.log.org.apache.http.wire=DEBUG
 
 	// helpful for cutting and pasting
-	//	-Dcom.jordanglassman.xdl.nyt.username=
-	//	-Dcom.jordanglassman.xdl.nyt.password=
-	//	-Dcom.jordanglassman.xdl.lat.username=
-	//	-Dcom.jordanglassman.xdl.lat.password=
-	//	-Dcom.jordanglassman.xdl.cs.username=
-	//	-Dcom.jordanglassman.xdl.cs.password=
-	//	-Dcom.jordanglassman.xdl.basedir=
-	//	-Dcom.jordanglassman.xdl.dev=true
-	//	-Dorg.slf4j.simpleLogger.defaultLogLevel=debug
+//		-Dcom.jordanglassman.xdl.nyt.username=
+//		-Dcom.jordanglassman.xdl.nyt.password=
+//		-Dcom.jordanglassman.xdl.lat.username=
+//		-Dcom.jordanglassman.xdl.lat.password=
+//		-Dcom.jordanglassman.xdl.cs.username=
+//		-Dcom.jordanglassman.xdl.cs.password=
+//		-Dcom.jordanglassman.xdl.basedir=
+//		-Dcom.jordanglassman.xdl.dev=true
+//		-Dorg.slf4j.simpleLogger.defaultLogLevel=debug
 }

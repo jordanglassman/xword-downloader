@@ -1,8 +1,8 @@
 package com.jordanglassman.xdl;
 
-import com.jordanglassman.xdl.download.cs.CsDownloader;
-import com.jordanglassman.xdl.download.lat.LatDownloader;
-import com.jordanglassman.xdl.download.nyt.NytDownloader;
+import com.jordanglassman.xdl.xword.cs.CsDownloader;
+import com.jordanglassman.xdl.xword.lat.LatDownloader;
+import com.jordanglassman.xdl.xword.nyt.NytDownloader;
 import com.jordanglassman.xdl.util.CredsManager;
 import com.jordanglassman.xdl.util.LoginInfo;
 import com.jordanglassman.xdl.util.PathsManager;
@@ -21,6 +21,14 @@ public class XwordDownloader {
 	private final PathsManager pathsManager;
 
 	public XwordDownloader() {
+
+		final Package pkg = Package.getPackage("com.jordanglassman.xdl");
+		final String version = pkg.getSpecificationVersion();
+		final String implVersion = pkg.getImplementationVersion();
+
+		LOG.info("Welcome to Xword Downloader " + version);
+		LOG.debug("Implementation-Version" + implVersion);
+
 		this.credsManager = new CredsManager();
 		this.pathsManager = new PathsManager();
 	}

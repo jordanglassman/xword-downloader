@@ -1,4 +1,4 @@
-package com.jordanglassman.xdl.download.nyt;
+package com.jordanglassman.xdl.xword.nyt;
 
 import com.jordanglassman.xdl.XwordType;
 import com.jordanglassman.xdl.download.BaseDownloader;
